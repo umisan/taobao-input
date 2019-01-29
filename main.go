@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"strings"
+	"time"
 
 	"github.com/umisan/taobao/config"
 	service "github.com/umisan/taobao/service/config"
@@ -65,6 +66,7 @@ func main() {
 		new_item.Link = records[i][4]
 		if _, ok := url_map[new_item.Link]; !ok {
 			//アイテム追加処理
+			fmt.Println("追加： ", new_item.Link)
 			url_map[new_item.Link] = true
 			new_item_list, err := service.GenerateNewItems(new_item)
 			if err != nil {
@@ -76,8 +78,10 @@ func main() {
 			}
 			item_list = append(item_list, new_item_list...)
 		}
+		time.Sleep(1 * time.Second)
 	}
 
 	//書き込んで保存
 	item_list.WriteData(db)
+	fmt.Println("アイテムの追加は正常に終了しました")
 }
