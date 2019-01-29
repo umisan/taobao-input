@@ -40,6 +40,12 @@ func main() {
 	fmt.Println("利用するcsvファイル名を入力してください")
 	var input_file string
 	fmt.Scan(&input_file)
+	fmt.Println("検索間隔を入力してください(秒)")
+	var duration int
+	fmt.Scan(&duration)
+	if duration == 0 {
+		duration = 1
+	}
 	csv_byte, err := ioutil.ReadFile(input_file)
 	if err != nil {
 		log.Fatal(err)
@@ -78,7 +84,7 @@ func main() {
 			}
 			item_list = append(item_list, new_item_list...)
 		}
-		time.Sleep(1 * time.Second)
+		time.Sleep(time.Duration(duration) * time.Second)
 	}
 
 	//書き込んで保存
