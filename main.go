@@ -20,6 +20,12 @@ mapを更新しながら新しい商品をitem_listに追加
 最後にitem_listを保存して終了
 */
 
+func wait() {
+	var temp string
+	fmt.Println("終了するにはqを入力してください")
+	fmt.Scan(&temp)
+}
+
 func main() {
 	//item.jsonの読み出し
 	db := "item.json"
@@ -48,14 +54,18 @@ func main() {
 	}
 	csv_byte, err := ioutil.ReadFile(input_file)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		wait()
+		return
 	}
 	csv_str := string(csv_byte[:])
 	csv_reader := strings.NewReader(csv_str)
 	reader := csv.NewReader(csv_reader)
 	records, err := reader.ReadAll()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		wait()
+		return
 	}
 
 	//item_listへの追加
@@ -68,15 +78,17 @@ func main() {
 		new_item.Maker = records[i][0]
 		new_item.Number = records[i][1]
 		new_item.Name = records[i][2]
-		new_item.Stock = records[i][3]
-		new_item.Link = records[i][4]
+		new_item.Stock = "0"
+		new_item.Link = records[i][3]
 		if _, ok := url_map[new_item.Link]; !ok {
 			//アイテム追加処理
 			fmt.Println("追加： ", new_item.Link)
 			url_map[new_item.Link] = true
 			new_item_list, err := service.GenerateNewItems(new_item)
 			if err != nil {
-				log.Fatal(err)
+				log.Println(err)
+				wait()
+				return
 			}
 			for i, _ := range new_item_list {
 				new_item_list[i].Id = index
@@ -90,4 +102,5 @@ func main() {
 	//書き込んで保存
 	item_list.WriteData(db)
 	fmt.Println("アイテムの追加は正常に終了しました")
+	wait()
 }
