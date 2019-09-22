@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/umisan/taobao/cookie"
 	"github.com/umisan/taobao/config"
 	service "github.com/umisan/taobao/service/config"
 )
@@ -27,6 +28,11 @@ func wait() {
 }
 
 func main() {
+	//cookieの読み込み
+	err := cookie.ReadCookie()
+	if err != nil {
+		log.Fatal("Cannot read cookie.json", err)
+	}
 	//item.jsonの読み出し
 	db := "item.json"
 	var item_list config.ItemList
