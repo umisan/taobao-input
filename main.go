@@ -8,9 +8,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/umisan/taobao/cookie"
-	"github.com/umisan/taobao/config"
-	service "github.com/umisan/taobao/service/config"
+	"github.com/umisan/taobao_beta/cookie"
+	"github.com/umisan/taobao_beta/config"
+	service "github.com/umisan/taobao_beta/service/config"
 )
 
 /*
